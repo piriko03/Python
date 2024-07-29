@@ -1,0 +1,25 @@
+import json
+
+diary_entries = {}
+
+def save_entry(username, entry):
+    if username not in diary_entries:
+        diary_entries[username] = []
+    diary_entries[username].append(entry)
+    save_entries_to_file(username)
+
+def load_entries(username):
+    if username in diary_entries:
+        return diary_entries[username]
+    return []
+
+def save_entries_to_file(username):
+    with open(f"{username}_diary.json", 'w') as f:
+        json.dump(diary_entries[username], f)
+
+def load_entries_from_file(username):
+    try:
+        with open(f"{username}_diary.json", 'r') as f:
+            diary_entries[username] = json.load(f)
+    except FileNotFoundError:
+        diary_entries[username] = []
